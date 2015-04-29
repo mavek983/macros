@@ -1,0 +1,310 @@
+■■■■■■■■■■■■■■■■クイックリファレンス ■■■■■■■■■■■■■■■■■
+■' (コメント)
+iimでは[']をコメントとして認識します、JSの中では[//]がコメントになります
+
+■ADD
+変数の数値計算や文字列連結を行います。
+
+: ADD !VAR1 -20 // VAR1 = VAR1 - 20
+: SET !VAR1 Hello
+: ADD !VAR1 <SP>World // VAR1 = "Hello World"
+: ADD !EXTRACT {{!COL1}} // 読み込んだCSVの１行から1カラム目を抽出します
+
+■BACK
+ブラウザの「戻る」ボタンを実行します。
+
+: BACK
+
+■CLEAR
+ブラウザのキャッシュとクッキーを削除します。しかし、セッションクッキーは削除されません。セッションクッキーとは、ブラウザを閉じると消えるクッキーのことです。新規でブラウザを起動しなおせば消えます。
+
+: CLEAR
+: SET !FILESTOPWATCH mydata.csv
+: STOPWATCH ID=total
+: URL GOTO=http://www.iopus.com
+: STOPWATCH ID=total
+
+■CLICK
+X軸Y軸で指定したポイントをクリックします。
+
+: CLICK X=316 Y=453
+
+■DS
+X軸Y軸で指定したポイントにマウスを移動します。
+
+: DS CMD=MOVETO X=455 Y=224 // 移動
+: DS CMD=LDOWN X=271 Y=79   // マウス左ボタン押しっぱ
+: DS CMD=LUP X=271 Y=79     // マウス左ボタン離す
+: DS CMD=KEY X=0 Y=0 CONTENT={BACKSPACE}my<SP>text // 現在のカーソル位置で[BS] my text と打つ
+
+■EVAL
+JavaScriptを実行します。
+
+: SET !VAR1 EVAL("[実行したいJS]")
+: TAG ... CONTENT=EVAL("[実行したいJS]")
+
+■EXTRACT
+TAGコマンドと共に実行し、HTML要素の値を抽出します。
+TAGの項目に記述します
+
+■FILEDELETE
+指定のファイルを削除します。
+
+: FILEDELETE NAME=file_name
+
+■FILTER
+画像の読み込みをしないようにします。（それ以外の機能も、以後、追加されるかもしれません）
+
+: FILTER TYPE=IMAGES STATUS=ON   // 画像を読み込まず、テキストだけの表示にする
+: FILTER TYPE=IMAGES STATUS=OFF  // 通常の表示に戻す
+
+■FRAME
+フレームを指定します（フレームがある場合）
+
+: FRAME F=6
+: TAG POS=1 TYPE=SPAN ATTR=TXT:Select<SP>path
+
+インラインフレームの６つ目を指定
+
+: FRAME NAME=contents
+: TAG POS=1 TYPE=P FORM=NAME:f3 ATTR=TXT:* EXTRACT=TXT
+
+フレーム名がcontentsのモノを指定
+
+■IMAGECLICK
+画像をクリックします。
+
+: IMAGECLICK POS=<n> IMAGE=image_file CONFIDENCE=n [CONTENT=some_content] [ALGORITHM=A/B]
+
+■IMAGESEARCH
+画像を検索します。
+
+: IMAGESEARCH POS=<n> IMAGE=image_file CONFIDENCE=n [ALGORITHM=A/B]
+
+■ONCERTIFICATEDIALOG
+表示されたダイアログのOKボタン、またはキャンセルボタンをクリックします。
+
+: ONCERTIFICATEDIALOG C=n BUTTON=[OK|CANCEL]
+  証明書選択ダイアログが出たらn行目を選択して[OK/CANCEL]を押す
+
+■ONDIALOG
+ ダイアログに値を入力してOKボタンなどをクリックします。
+
+: ONDIALOG POS=n BUTTON=(YES|NO|CANCEL) [CONTENT=some_content]
+  ダイアログが出たらn個目に値を入力してボタンをクリックする
+
+■ONDOWNLOAD
+ダウンロードダイアログを操作します。
+
+: ONDOWNLOAD FOLDER=folder_name FILE=file_name WAIT=[YES|NO] CHECKSUM=[MD5|SHA:hexadecimal_string] SIZE=n
+  指定のフォルダにファイルをダウンロード
+: ONDOWNLOAD CANCEL=YES
+  ダウンロードキャンセル
+: ONDOWNLOAD FOLDER=* FILE=* WAIT=NO
+  Downloadsフォルダにダウンロード
+
+■ONERRORDIALOG
+エラーダイアログを操作します。
+
+: ONERRORDIALOG BUTTON=(YES|NO) CONTINUE=(YES|NO)
+  エラーボタンに対して、[Y/N]を選択した後、続行するか[YES]、しない[NO]
+
+■ONINSECURECONNECTION
+オレオレ証明などで、セキュリティ警告が出たら、継続するかどうか
+
+: ONINSECURECONNECTION DISALLOW=(YES|NO) CONTINUE=(YES|NO)
+  無視して実行[YES]、キャンセル[NO]、後、続行するか[YES]、しない[NO]
+
+■ONLOGIN
+HTTPBASIC基本認証などでユーザログインが求められた場合に入力するユーザ名／パスワードを指定します。
+
+: ONLOGIN USER=username PASSWORD=password RETRY=[YES|NO]
+
+■ONPRINT
+印刷ダイアログを操作します。
+
+: ONPRINT P=3
+: PRINT
+  ３番目のプリンタを指定して印刷
+
+■ONSECURITYDIALOG
+セキュリティダイアログを操作します。
+
+: ONSECURITYDIALOG BUTTON=(YES|NO) CONTINUE=(YES|NO)
+  実行[YES]、キャンセル[NO]、後、続行するか[YES]、しない[NO]
+
+■ONWEBPAGEDIALOG
+通常のWebページを操作します。
+
+: ONWEBPAGEDIALOG KEYS={CLOSE}
+
+: {TAB} // タブ切り替え
+: {ENTER} // Enter
+: {UP} // 上キー
+: {DOWN} // 下キー
+: {CLOSE} // 閉じる
+: {WAIT<SP>Seconds} // 次のキーが押されるまで待機
+
+■PAUSE
+マクロの実行を一時中断します。
+
+: PAUSE
+
+■PRINT
+Webページを印刷します。
+
+: PRINT
+
+■PROMPT
+ユーザに値の入力を求めます。（その値を指定の変数に格納します）
+
+: PROMPT "パスワードを入れてください:" !VAR1
+: TAG POS=1 TYPE=INPUT:PASSWORD FORM=NAME:loginbox ATTR=ID:pass CONTENT={{!VAR1}}
+
+: PROMPT {{!EXTRACT}} // デバックに使う場合
+: PROMPT {{!myvar}} // デバックに使う場合
+
+■PROXY
+プロキシサーバを指定します。
+
+: PROXY ADDRESS=proxy_URL:port [BYPASS=page_name]
+: PROXY ADDRESS=http=192.1.8.1:8080<SP>https=192.1.8.2:8080 BYPASS=NULL
+: PROXY ADDRESS=127.0.0.1:3128 BYPASS= *google* *youtube*
+
+■REFRESH
+ページの再読み込みを行います。F5と同じです。
+
+: REFRESH
+
+■SAVEAS
+情報をファイルに保存します。
+
+: SAVEAS TYPE=(CPL|MHT|HTM|TXT|EXTRACT|BMP|PNG|JPEG) FOLDER=folder_name FILE=file_name
+
+■SAVEITEM
+PDFやタグの情報を保存します。
+
+: TAG POS=1 TYPE=INPUT:IMAGE FORM=NAME:frmImpact2 ATTR=ID:mapimg CONTENT=EVENT:SAVEITEM
+: TAG POS=1 TYPE=IMG ATTR=HREF:http://*.jpg CONTENT=EVENT:SAVEITEM
+
+■SEARCH
+HTMLの検索を行います。Ctrl+Fとは異なります。
+
+: SEARCH SOURCE=(TXT|REGEXP) IGNORE_CASE=YES EXTRACT=$1
+: SEARCH SOURCE=TXT:"'探したい文字列'" // もしあったら
+: SEARCH SOURCE=TXT:"'探したい文字列'" IGNORE_CASE=YES // もし無かったら
+: SEARCH SOURCE=REGEXP:"ga\\('create', '([^']+)', 'imacros.net'\\)" EXTRACT="Tracker is $1"
+
+■SCREENSHOT
+スクリーンショットを取ります
+
+: SCREENSHOT TYPE=(PAGE|BROWSER) FOLDER=folder_name FILE=file_name
+: SCREENSHOT TYPE=Page FOLDER=* FILE=* // ページスタイルで取得
+: SCREENSHOT TYPE=Browser FOLDER=* FILE=* // ブラウザごと取得
+
+■SET
+変数に値を設定します。
+
+: SET !VAR1 <値>
+: SET !VAR1 {{!環境変数}}
+: SET !VAR1 {{!CLIPBOARD}}
+: SET !ERRORIGNORE YES        //エラー時でも続行
+: SET !VAR2 {{!EXTRACT}}      //入れ子で指定もできる、前行で取りだしたデータをVAR2に
+: SET !CLIPBOARD {{!EXTRACT}} //クリップボードに転送
+: SET !EXTRACT NULL           //取り出したデータを一旦NULLでクリア
+: SET !TIMEOUT_PAGE 2         //2秒で強制タイムアウト
+: SET !ENCRYPTION NO          //パスワードを***でマスクしない
+
+■SIZE
+ブラウザウィンドウのサイズを設定します。
+
+: SIZE X=*** Y=***
+
+■STOPWATCH
+表示にかかる時間などを測定します。
+
+: SET !FOLDER_STOPWATCH c:\Temp  // ログを任意生成するとき、指定ディレクトリ以下にファイルが生成される
+: SET !FOLDER_STOPWATCH NO       // 任意生成しないとき
+
+: SET !FILESTOPWATCH C:\Temp\demo-stopwatch.csv  //ログを指定するとき
+
+: STOPWATCH ID=Firstpage
+: URL GOTO=http://demo.imacros.net/Automate/StopWatchDemo
+: STOPWATCH ID=Firstpage
+
+{{!STOPWATCHTIME}} // 最後に計測した値が入っている
+
+■TAB
+ブラウザの指定のタブを選択します。
+
+: TAB T=1     // 1つめのタブ
+: TAB CLOSEALLOTHERS // 指定以外のタブをすべて閉じる
+: TAB OPEN    // 新しいタブを開く
+
+■TAG
+HTML要素を指定して、値を抽出したり、クリックしたりします。
+
+: TAG POS=(何回目の出現か) TYPE=(タグ):(タグ名) ATTR=NAME:(nameの値)
+
+<a href="#">aaa</a>
+<a href="#">bbb</a>
+<a href="#">aaa</a>
+<a href="#">ccc</a>
+<a href="#">aaa</a> ←ここ
+
+: TAG POS=3 TYPE=A ATTR=TXT:aaa
+  は、3つめのAタグのテキストがaaaの部分
+
+<form name="a">
+<input type="text" name="aaa" /><br />
+<input type="text" name="bbb" /><br />
+<input type="text" name="ccc" /><br />
+</form>
+
+<form name="b">
+<input type="text" name="aaa" /><br />
+<input type="text" name="bbb" /><br /> ←ここ
+<input type="text" name="ccc" /><br />
+</form>
+
+: TAG POS=1 TYPE=INPUT:TEXT FORM=NAME:b ATTR=NAME:bbb CONTENT=foo
+  は 1つめの FORM name=bの INPUTのNAME=bbbの入力フォームにfooを入れる
+
+<td class="planTableListPrice col3"> ここ </td>
+<td class="planTableListPrice col3"> 無視 </td>
+<td class="planTableListPrice col3"> 無視 </td>
+
+: TAG POS=1 TYPE=TD ATTR=CLASS:planTableListPrice<SP>col3 EXTRACT=TXT
+
+■TRAY(version 7以降
+マクロ実行中にiMacrosブラウザを最小化します。
+
+: TRAY (HIDE|SHOW)
+トレイに格納[HIDE]するか、表示[SHOW]する
+
+■URL
+指定のURLに移動します。
+
+: URL GOTO=http://www.yahoo.co.jp/ // 指定URLに移動
+: URL GOTO=javascript:alert("TEST");   // JSを実行
+
+■VERSION
+iMacrosのバージョンを指定します。必須です。
+
+作成バージョンを指定します。現在は
+: VERSION BUILD=8810214 RECORDER=FX
+固定で
+
+■WAIT
+指定の秒数だけ待機します。画面が完全に表示されるのを待つときなどに使用します。
+
+: WAIT SECONDS=10
+  10秒待つ
+
+■JSにデータを渡す変数
+
+RESULT = iimGetStopwatch (1, name, value )  // STOPWATCHでとった値
+RESULT = iimGetLastExtract(1) // EXTRACTしたデータ(配列値)
+RESULT = iimGetLastError() // 最後に出たエラー
+iimSet("VAR1", "100") // VAR1 = 100をセット
+iimPlay("macro") // 指定したmacroを実行
